@@ -16,7 +16,7 @@ malicious_strings = [
 
 # Firebase Configuration
 firebaseConfig = {
-    "apiKey": "AIzaSyA49nGgrsHWyEheb1BHWZYVUIdvPoe1a_0",
+    "apiKey": st.secrets["apikey"],
     "authDomain": "attackprotectqr.firebaseapp.com",
     "projectId": "attackprotectqr",
     "storageBucket": "attackprotectqr.firebasestorage.app",
