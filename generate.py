@@ -7,7 +7,7 @@ import pyrebase
 
 # Firebase Configuration
 firebaseConfig = {
-    "apiKey": "AIzaSyA49nGgrsHWyEheb1BHWZYVUIdvPoe1a_0",
+    "apiKey": st.secrets["apikey"],
     "authDomain": "attackprotectqr.firebaseapp.com",
     "projectId": "attackprotectqr",
     "storageBucket": "attackprotectqr.appspot.com",
