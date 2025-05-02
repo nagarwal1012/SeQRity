@@ -21,26 +21,14 @@ def get_content_checksum(content: str) -> str:
 
 def extract_qr_content(pil_img):
     """Extract QR content and bounding box from image using pyzbar."""
-    # Ensure image is in RGB mode to avoid OpenCV errors
-    pil_img = pil_img.convert("RGB")
+    cv_img = cv2.cvtColor(np.array(img.convert("RGB")), cv2.COLOR_RGB2BGR)
+    detector = cv2.QRCodeDetector()
+    data, pts, _ = detector.detectAndDecode(cv_img)
 
-    # Convert to OpenCV format
-    cv_img = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
-    
-    # Decode QR code
-    decoded_objs = decode(cv_img)
+    if not data:
+        return None
 
-    if not decoded_objs:
-        return None, None
-
-    # Get first QR code's data and crop region
-    data = decoded_objs[0].data.decode("utf-8")
-    rect = decoded_objs[0].rect
-    x, y, w, h = rect.left, rect.top, rect.width, rect.height
-    cropped_qr = cv_img[y:y + h, x:x + w]
-    cropped_pil = Image.fromarray(cv2.cvtColor(cropped_qr, cv2.COLOR_BGR2RGB))
-
-    return data, cropped_pil
+    return data
 
 def check_qr():
     st.title("QR Code Checker")
@@ -54,12 +42,12 @@ def check_qr():
             img = Image.open(captured_img if captured_img else uploaded_img)
             st.image(img, caption="Uploaded Image", use_column_width=True)
 
-            qr_content, qr_crop = extract_qr_content(img)
+            qr_content = extract_qr_content(img)
             if qr_content is None:
                 st.warning("No QR code detected.")
                 return
 
-            st.image(qr_crop, caption="QR Region")
+            st.image(img, caption="QR Region")
             checksum = get_content_checksum(qr_content)
 
             st.write(f"Checksum: {checksum}")
