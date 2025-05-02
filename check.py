@@ -14,6 +14,7 @@ def report_as_malicious(content):
         "reported_at": datetime.utcnow().isoformat()
     }
     resp = requests.post(f"{DB_URL}/malicious.json", json=payload)
+    return resp.ok
 
 def get_content_checksum(content: str) -> str:
     """Generate checksum from QR content."""
