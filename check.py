@@ -54,7 +54,7 @@ def check_qr():
             resp = requests.get(f"{DB_URL}/qr_checksums.json")
             records = resp.json() if resp.ok else {}
         
-            found = any(r.get("checksum") == cs for r in records.values()) if records else False
+            found = any(r.get("checksum") == checksum for r in records.values()) if records else False
 
             if not found:
                 st.error("This QR code appears to be malicious and unsafe. It doesn't match our records.")
