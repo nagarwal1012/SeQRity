@@ -69,7 +69,7 @@ def generate_qr_page():
             }
             resp = requests.post(f"{DB_URL}/qr_checksums.json", json=payload)
             if resp.ok:
-                st.success("✅ Stored to Firebase!")
+                st.success("Stored to Firebase!")
             else:
                 st.error(f"Firebase error: {resp.status_code} {resp.text}")
 
