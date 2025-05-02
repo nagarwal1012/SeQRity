@@ -2,7 +2,7 @@ import streamlit as st
 import importlib
 
 st.set_page_config(page_title="QR Code Checker App", layout="wide")
-
+#config.toml
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins&display=swap');
