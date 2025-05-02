@@ -1,0 +1,73 @@
+import streamlit as st
+import importlib
+
+st.set_page_config(page_title="QR Code Checker App", layout="wide")
+
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins&display=swap');
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cinzel', serif !important;
+            color: #2DC4A4 !important;
+        }
+
+        html, body, [class*="css"]  {
+            font-family: 'Poppins', sans-serif !important;
+            color: #022D50 !important;
+        }
+
+        .css-1v3fvcr {  /* Adjust this to tweak sidebar if needed */
+            background-color: #f9f9f9;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Sidebar branding
+st.sidebar.markdown("### **SeQRity**")
+st.sidebar.markdown("Secure your scans")
+
+# Sidebar navigation (About page removed)
+page = st.sidebar.radio("Select Page", ["Home", "Generate", "Check"], index=0)
+
+if page == "Home":
+    st.header("Welcome to SeQRity")
+    st.markdown("""
+        SeQRity is a web-based platform designed to combat the growing threat of malicious QR codes by ensuring link authenticity and user safety. It helps you generate and verify QR codes safely. Whether you’re sharing a link or scanning one, SeQRity extracts the embedded content, computes its checksum, and cross-verifies it with our trusted Firebase database to make sure it is authentic and secure.
+
+        If a QR code doesn't match the checksum stored in the database, SeQRity will flag it as suspicious or unknown. With one click, you can report malicious content, contributing to a growing community-sourced blacklist that improves threat detection over time.
+
+        **Key Features:**
+        - Real-time QR code generation with checksum hashing  
+        - Safe scanning via camera or image upload  
+        - Firebase integration for scalable cloud-based verification  
+        - Malicious link detection using a known bad content list  
+        - User-powered reporting system for new threats  
+        - User-friendly interface  
+
+        **Your QR codes. Verified. Trusted. Safe.**
+    """)
+    tab1, tab2 = st.tabs(["Generate QR Code", "Check QR Code"])
+
+    with tab1:
+        generate = importlib.import_module("generate")
+        generate.generate_qr_page()
+
+    with tab2:
+        check = importlib.import_module("check")
+        check.check_qr()
+
+elif page == "Generate":
+    generate = importlib.import_module("generate")
+    generate.generate_qr_page()
+
+elif page == "Check":
+    check = importlib.import_module("check")
+    check.check_qr()
+
+st.markdown("""
+    <hr style="border:1px solid #ccc">
+    <div style='text-align:center; color:#999; font-size: 0.9em;'>
+        Built by Navya Agarwal • Powered by Firebase & Streamlit
+    </div>
+""", unsafe_allow_html=True)
