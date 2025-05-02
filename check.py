@@ -1,34 +1,19 @@
 import streamlit as st
 from PIL import Image
-import hashlib
-import pyrebase
-import cv2
 import numpy as np
-from pyzbar.pyzbar import decode
+import cv2
+import hashlib
+import requests
+from datetime import datetime
 
-malicious_strings = [
-    "http://malicious.com",
-    "https://phishing.site",
-    "dangerous payload",
-    "DROP TABLE",
-    "<script>alert('xss')</script>"
-]
+DB_URL = st.secrets["firebase"]["databaseURL"].rstrip("/")
 
-# Firebase Configuration
-firebaseConfig = {
-    "apiKey": "AIzaSyA49nGgrsHWyEheb1BHWZYVUIdvPoe1a_0",
-    "authDomain": "attackprotectqr.firebaseapp.com",
-    "projectId": "attackprotectqr",
-    "storageBucket": "attackprotectqr.firebasestorage.app",
-    "messagingSenderId": "176060142744",
-    "appId": "1:176060142744:web:ef980a43ff760832422ced",
-    "measurementId": "G-1YHE0ZV9KE",
-    "databaseURL": "https://attackprotectqr-default-rtdb.firebaseio.com/"
-}
-
-# Initialize Firebase
-firebase = pyrebase.initialize_app(firebaseConfig)
-db = firebase.database()
+def report_as_malicious(content):
+    payload = {
+        "content": content,
+        "reported_at": datetime.utcnow().isoformat()
+    }
+    resp = requests.post(f"{DB_URL}/malicious.json", json=payload)
 
 def get_content_checksum(content: str) -> str:
     """Generate checksum from QR content."""
@@ -78,19 +63,20 @@ def check_qr():
             checksum = get_content_checksum(qr_content)
 
             st.write(f"Checksum: {checksum}")
-            records = db.child("qr_checksums").get().val()
-            found = any(record.get("checksum") == checksum for record in records.values()) if records else False
+            resp = requests.get(f"{DB_URL}/qr_checksums.json")
+            records = resp.json() if resp.ok else {}
+        
+            found = any(r.get("checksum") == cs for r in records.values()) if records else False
 
-            if qr_content.strip() in malicious_strings or not found:
+            if not found:
                 st.error("This QR code appears to be malicious and unsafe. It doesn't match our records.")
                 st.code(qr_content, language="text")
 
                 if st.button("Report this QR code"):
-                    db.child("malicious_links").push({
-                        "content": qr_content,
-                        "checksum": checksum,
-                    })
-                    st.success("QR code reported. Thanks for helping keep the community safe.")
+                    if report_as_malicious(data):
+                        st.success("QR code reported. Thanks for helping keep the community safe.")
+                    else:
+                        st.error("❌ Failed to report.")
             else:
                 st.success("QR code is safe and verified!")
                 st.balloons()
