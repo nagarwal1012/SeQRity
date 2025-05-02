@@ -61,7 +61,7 @@ def check_qr():
                 st.code(qr_content, language="text")
 
                 if st.button("Report this QR code"):
-                    if report_as_malicious(data):
+                    if report_as_malicious(qr_content):
                         st.success("QR code reported. Thanks for helping keep the community safe.")
                     else:
                         st.error("❌ Failed to report.")
