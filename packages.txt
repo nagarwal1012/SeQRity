@@ -1,5 +1,0 @@
-build-essential
-cmake
-gcc
-g++
-libstdc++6
