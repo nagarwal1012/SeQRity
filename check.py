@@ -19,7 +19,7 @@ def get_content_checksum(content: str) -> str:
     """Generate checksum from QR content."""
     return hashlib.md5(content.encode("utf-8")).hexdigest()
 
-def extract_qr_content(pil_img):
+def extract_qr_content(img):
     """Extract QR content and bounding box from image using pyzbar."""
     cv_img = cv2.cvtColor(np.array(img.convert("RGB")), cv2.COLOR_RGB2BGR)
     detector = cv2.QRCodeDetector()
