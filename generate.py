@@ -5,7 +5,7 @@ import hashlib
 import requests
 from datetime import datetime
 
-DB_URL = st.secrets["firebase"]["databaseURL"].rstrip("/")
+DB_URL = st.secrets["firebase"].rstrip("/")
 
 def is_malicious(content):
     resp = requests.get(f"{DB_URL}/malicious.json")
