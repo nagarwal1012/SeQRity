@@ -40,7 +40,7 @@ def generate_qr_page():
             st.warning("Please enter some content.")
             return
 
-        if content.strip() in malicious_strings:
+        if is_malicious(content.strip()):
             st.error("This content is known to be unsafe. QR code generation aborted.")
             return
 
