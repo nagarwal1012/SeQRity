@@ -65,7 +65,7 @@ def check_qr():
                     if report_as_malicious(qr_content):
                         st.success("QR code reported. Thanks for helping keep the community safe.")
                     else:
-                        st.error("❌ Failed to report.")
+                        st.error("Failed to report. Please try again.")
             else:
                 st.success("QR code is safe and verified!")
                 st.balloons()
