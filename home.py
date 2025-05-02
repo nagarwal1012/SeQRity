@@ -23,14 +23,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar branding
-st.sidebar.markdown("### **SeQRity**")
-st.sidebar.markdown("Secure your scans")
-
-# Sidebar navigation (About page removed)
-page = st.sidebar.radio("Select Page", ["Home", "Generate", "Check"], index=0)
-
-if page == "Home":
+if True:
     st.header("Welcome to SeQRity")
     st.markdown("""
         SeQRity is a web-based platform designed to combat the growing threat of malicious QR codes by ensuring link authenticity and user safety. It helps you generate and verify QR codes safely. Whether you’re sharing a link or scanning one, SeQRity extracts the embedded content, computes its checksum, and cross-verifies it with our trusted Firebase database to make sure it is authentic and secure.
@@ -56,14 +49,6 @@ if page == "Home":
     with tab2:
         check = importlib.import_module("check")
         check.check_qr()
-
-elif page == "Generate":
-    generate = importlib.import_module("generate")
-    generate.generate_qr_page()
-
-elif page == "Check":
-    check = importlib.import_module("check")
-    check.check_qr()
 
 st.markdown("""
     <hr style="border:1px solid #ccc">
