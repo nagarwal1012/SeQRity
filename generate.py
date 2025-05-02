@@ -2,38 +2,17 @@ import streamlit as st
 import qrcode
 import io
 import hashlib
+import requests
 from datetime import datetime
-import pyrebase
 
-# Firebase Configuration
-firebaseConfig = {
-    "apiKey": "AIzaSyA49nGgrsHWyEheb1BHWZYVUIdvPoe1a_0",
-    "authDomain": "attackprotectqr.firebaseapp.com",
-    "projectId": "attackprotectqr",
-    "storageBucket": "attackprotectqr.appspot.com",
-    "messagingSenderId": "176060142744",
-    "appId": "1:176060142744:web:ef980a43ff760832422ced",
-    "measurementId": "G-1YHE0ZV9KE",
-    "databaseURL": "https://attackprotectqr-default-rtdb.firebaseio.com/"
-}
+DB_URL = st.secrets["firebase"]["databaseURL"].rstrip("/")
 
-# Initialize Firebase once
-@st.cache_resource
-def init_firebase():
-    return pyrebase.initialize_app(firebaseConfig)
-
-firebase = init_firebase()
-db = firebase.database()
-
-# List of known malicious strings
-malicious_strings = [
-    "http://malicious.com",
-    "https://phishing.site",
-    "dangerous payload",
-    "DROP TABLE",
-    "<script>alert('xss')</script>"
-    # Add more entries as needed
-]
+def is_malicious(content):
+    resp = requests.get(f"{DB_URL}/malicious.json")
+    if resp.ok and resp.json():
+        data = resp.json()
+        return any(item.get("content") == content for item in data.values())
+    return False
 
 def generate_qr_code(content: str):
     qr = qrcode.QRCode(
@@ -82,11 +61,17 @@ def generate_qr_page():
             st.write("Content:", content)
             st.write("Checksum (from content):", checksum)
 
-            # 5. Store in Firebase
-            db.child("qr_checksums").push({
-                "checksum": checksum,
+            # Save to Firebase
+            payload = {
                 "content": content,
-            })
+                "checksum": checksum,
+                "timestamp": datetime.utcnow().isoformat()
+            }
+            resp = requests.post(f"{DB_URL}/qr_checksums.json", json=payload)
+            if resp.ok:
+                st.success("✅ Stored to Firebase!")
+            else:
+                st.error(f"Firebase error: {resp.status_code} {resp.text}")
 
             # 6. Download button
             st.download_button(
