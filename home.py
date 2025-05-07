@@ -2,7 +2,6 @@ import streamlit as st
 import importlib
 
 st.set_page_config(page_title="QR Code Checker App", layout="wide")
-unsafe_allow_html=True)
 
 if True:
     st.header("Welcome to SeQRity")
