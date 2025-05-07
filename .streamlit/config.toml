@@ -1,1 +1,12 @@
+[theme]
+primaryColor = "#2DC4A4"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#f9f9f9"
+textColor = "#022D50"
+font = "sans serif"
+
+import streamlit as st
+
+# Hide the sidebar using Streamlit's built-in layout
+st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 
