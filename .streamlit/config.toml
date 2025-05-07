@@ -1,11 +1,47 @@
 [theme]
+base = "light"
+
 primaryColor = "#2DC4A4"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#f9f9f9"
+secondaryBackgroundColor = "#F9F9F9"
 textColor = "#022D50"
-font = "sans serif"
+linkColor = "#2DC4A4"
+codeBackgroundColor = "#F3F3F3"
 
-import streamlit as st
+font = "Poppins, sans-serif"
+codeFont = "monospace"
+headingFont = "Cinzel, serif"
 
-# Hide the sidebar using Streamlit's built-in layout
-st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
+baseRadius = "0.5rem"
+borderColor = "#DDDDDD"
+showWidgetBorder = true
+baseFontSize = 16
+showSidebarBorder = false
+
+[[theme.fontFaces]]
+font = "Poppins"
+url = "https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+font = "Cinzel"
+url = "https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap"
+weight = 600
+style = "normal"
+
+[theme.sidebar]
+primaryColor = "#2DC4A4"
+backgroundColor = "#F9F9F9"
+secondaryBackgroundColor = "#F0F0F0"
+textColor = "#022D50"
+linkColor = "#2DC4A4"
+codeBackgroundColor = "#EDEDED"
+
+font = "Poppins, sans-serif"
+codeFont = "monospace"
+headingFont = "Cinzel, serif"
+
+baseRadius = "0.5rem"
+borderColor = "#DDDDDD"
+showWidgetBorder = true
