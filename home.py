@@ -2,26 +2,7 @@ import streamlit as st
 import importlib
 
 st.set_page_config(page_title="QR Code Checker App", layout="wide")
-#config.toml
-st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins&display=swap');
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Cinzel', serif !important;
-            color: #2DC4A4 !important;
-        }
-
-        html, body, [class*="css"]  {
-            font-family: 'Poppins', sans-serif !important;
-            color: #022D50 !important;
-        }
-
-        .css-1v3fvcr {  /* Adjust this to tweak sidebar if needed */
-            background-color: #f9f9f9;
-        }
-    </style>
-""", unsafe_allow_html=True)
+unsafe_allow_html=True)
 
 if True:
     st.header("Welcome to SeQRity")
