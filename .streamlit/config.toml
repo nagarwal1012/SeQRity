@@ -9,4 +9,3 @@ import streamlit as st
 
 # Hide the sidebar using Streamlit's built-in layout
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
-
